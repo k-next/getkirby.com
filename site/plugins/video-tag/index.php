@@ -109,7 +109,7 @@ Kirby::plugin('getkirby/video-tag', [
 
                 return Html::figure([$video ?? ''], $tag->caption, [
                     'class' => $tag->class ?? 'video',
-                    'style' => $tag->style . ' --aspect-ratio: 16/9'
+                    'style' => '--aspect-ratio: 16/9; ' . $tag->style
                 ]);
             }
         ]

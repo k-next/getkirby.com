@@ -1,0 +1,1131 @@
+Title: Backups plugin
+
+----
+
+Description: Re-create the Backups plugin from scratch.
+
+----
+
+Published: 2021-04-22
+
+----
+
+Text:
+
+First things first, here is a glimpse at what we will build:
+
+(video: backups-overview.mp4 style:--aspect-ratio:17/9 muted: true)
+
+**What you will need :**
+
+- A terminal with npm installed
+- Some notions about how Vue works would be useful
+- Chrome or Firefox with the Vue Devtools extension for whenever something doesn't work as intended
+- The kirby-janitor plugin installed
+
+## Set the scene
+
+Let's start with a fresh folder structure. Download, unzip and put [the Starterkit](https://github.com/getkirby/starterkit) (or clone it) at the root of your localhost.
+
+Since we're going to develop a rather complex panel view, some build processes will be a great help to keep our code structured and be able to create components.
+
+Head over to your `site/plugins` folder, and from there follow the **[Setup for panel plugins](https://github.com/getkirby/pluginkit)** guide to create a new plugin boilerplate named `backups` (don't forget to edit the `composer.json` file to reflect what's actually in the plugin).
+
+It's a matter of personal taste but I like to keep the CSS styling out of the Vue files, so I'm also creating a `src/assets/css/styles.scss` file. You can definitely do it without SCSS and with an inline style all the same.
+
+At this point, our `site/plugins/backups` folder should look like this:
+
+```filesystem
+src/
+  assets/
+  css/
+    styles.scss
+  components/
+    View.vue
+index.js
+.editorconfig
+.gitattributes
+.gitignore
+composer.json
+index.php
+LICENSE.md
+package.json
+README.md
+```
+
+We can do a test run with `npm run build` to make sure everything is in place.
+
+Let's begin building the plugin!
+
+## Setting up a static view
+
+<info>
+At this point, we will assume that:
+- You have `npm run dev` running, so that the changes we are making are automatically compiled and synced in your browser.
+- `(...)` in code snippets stands for *"Keep the code that you already have here".*
+- You will need to remove some of my comments (`// ...`) if you copy-paste snippets.
+</info>
+
+We first want to register the plugin under its own name, and show a custom view in the main menu.
+
+```php "index.php"
+Kirby::plugin('example-plugin/backups', []);
+```
+
+```javascript "src/components/Backups.vue (rename the existing View.vue)"
+<template>
+  <k-view class="k-backups-view">
+    <k-header>
+      Backups
+    </k-header>
+  </k-view>
+</template>
+
+<script>
+export default {};
+</script>
+
+// this will import all our CSS styles, they'll be then compiled in index.css
+<style lang="scss">
+  @import '../assets/css/styles.scss'
+</style>
+```
+
+```javascript "/src/index.js"
+import Backups from './components/Backups.vue';
+
+panel.plugin('example-plugin/backups', {
+  views: {
+    backups: {
+      label: 'Backups',
+      icon: 'download',
+      component: Backups,
+    }
+  }
+});
+```
+
+Head over to the panel, you should see a new menu item listed:
+
+(image: backups-01.png)
+
+That's good but it would look better with a custom icon. Let's work on (or find) a 16×16 svg we can use (mine comes from the Nucleo App library):
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <path d="M15.33,6.67H.67A.67.67,0,0,1,0,6V.67A.67.67,0,0,1,.67,0H15.33A.67.67,0,0,1,16,.67V6A.67.67,0,0,1,15.33,6.67Zm-14-1.33H14.67v-4H1.33Zm14,9.33H.67A.67.67,0,0,1,0,14V8.67A.67.67,0,0,1,.67,8H15.33a.67.67,0,0,1,.67.67V14A.67.67,0,0,1,15.33,14.67Zm-14-1.33H14.67v-4H1.33Zm5.33-10A.67.67,0,0,0,6,2.67H3.33A.67.67,0,0,0,3.33,4H6A.67.67,0,0,0,6.67,3.33Zm0,8A.67.67,0,0,0,6,10.67H3.33a.67.67,0,0,0,0,1.33H6A.67.67,0,0,0,6.67,11.33Zm6-8.67a.67.67,0,1,1-.67.67A.67.67,0,0,1,12.67,2.67Zm0,8a.67.67,0,1,1-.67.67A.67.67,0,0,1,12.67,10.67Z"/>
+</svg>
+```
+
+We'll register this as `backups` icon, copy-paste only what's inside of your `<svg>` tag:
+
+```javascript "/src/index.js"
+(...)
+
+panel.plugin('example-plugin/backups', {
+  views: {
+    backups: {
+      (...)
+      icon: 'backups',
+    }
+  },
+  icons: {
+    backups: '<path d="M15.33,6.67H.67A.67.67,0,0,1,0,6V.67A.67.67,0,0,1,.67,0H15.33A.67.67,0,0,1,16,.67V6A.67.67,0,0,1,15.33,6.67Zm-14-1.33H14.67v-4H1.33Zm14,9.33H.67A.67.67,0,0,1,0,14V8.67A.67.67,0,0,1,.67,8H15.33a.67.67,0,0,1,.67.67V14A.67.67,0,0,1,15.33,14.67Zm-14-1.33H14.67v-4H1.33Zm5.33-10A.67.67,0,0,0,6,2.67H3.33A.67.67,0,0,0,3.33,4H6A.67.67,0,0,0,6.67,3.33Zm0,8A.67.67,0,0,0,6,10.67H3.33a.67.67,0,0,0,0,1.33H6A.67.67,0,0,0,6.67,11.33Zm6-8.67a.67.67,0,1,1-.67.67A.67.67,0,0,1,12.67,2.67Zm0,8a.67.67,0,1,1-.67.67A.67.67,0,0,1,12.67,10.67Z"/>',
+  }
+});"
+```
+
+Head back to the panel:
+
+(image: backups-02.png)
+
+Now let's set up our static view. I will use some placeholders here, we will add the logic and actions later on.
+
+First, we create the View's header. Not a single line of CSS is needed for it to look very kirby-ish:
+
+```javascript "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">
+      Backups
+      <k-button-group slot="left">
+        <k-button icon="add">Create a new backup</k-button>
+      </k-button-group>
+      <k-button-group slot="right">
+        <k-button icon="download">Download the latest backup</k-button>
+      </k-button-group>
+    </k-header>
+  </k-view>
+</template>
+
+(...)
+```
+
+(image: backups-03.png)
+
+Then we put together the markup of the backups list:
+
+```javascript "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">(...)</k-header>
+
+    <section class="backups-section">
+      <header class="backups-header">
+        <div class="backup-filename">Filename</div>
+        <div class="backup-size">Size</div>
+        <div class="backup-date">Created</div>
+      </header>
+      <ul class="backups-list">
+        <li class="backup-entry">
+          <div class="backup-filename">
+            <k-icon type="backup" />
+            <span>backup-1586428551.zip</span>
+          </div>
+          <div class="backup-size">2.3 Mb</div>
+          <div class="backup-date">09/04/2020, 10:35:51</div>
+          <div class="backup-actions">
+            <k-button class="backup-download" icon="download">Download</k-button>
+            <k-button icon="trash" theme="negative"></k-button>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </k-view>
+</template>
+
+(...)
+```
+
+I added a new type of icon in `<k-icon type="backup" />` , so I'll register it (still from Nucleo):
+
+```javascript "/scr/index.js"
+(...)
+
+panel.plugin('exaple-plugin/backups', {
+  (...)
+  icons: {
+    backup: '<path d="M7.12,11.86a.56.56,0,0,1-.4-.16l-2-2a.56.56,0,0,1,.79-.79L7.12,10.5l3.56-3.56a.56.56,0,0,1,.79.79l-4,4A.56.56,0,0,1,7.12,11.86Z"/><path d="M14,15.45H2.17A2.17,2.17,0,0,1,0,13.28V1.41A.69.69,0,0,1,.69.72H6.13a.69.69,0,0,1,.59.33L8,3.19h7.52a.69.69,0,0,1,.69.69v9.4A2.17,2.17,0,0,1,14,15.45ZM1.38,2.1V13.28a.8.8,0,0,0,.79.79H14a.8.8,0,0,0,.8-.79V4.57H7.61A.69.69,0,0,1,7,4.23L5.74,2.1Z"/>',
+  }
+});
+```
+
+And then some styling:
+
+```scss "src/assets/css/styles.scss"
+.backups-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+  font-weight: 600;
+  padding: 0 .7rem;
+  background: #e8e8e8;
+}
+
+.backups-list {
+  font-size: .875rem;
+  li {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 .7rem;
+    &:not(:first-child) { border-top: 1px solid rgba(0, 0, 0, .12); }
+    &:last-child    { border-bottom: 1px solid rgba(0, 0, 0, .12); }
+    &:hover {
+      background: white;
+      border-color: transparent;
+      &+ li {
+        border-top-color: transparent;
+      }
+    }
+    .k-icon svg {
+      width: .875rem;
+      height: .875rem;
+    }
+    .backup-filename {
+      display: flex;
+      align-items: center;
+      .k-icon {
+        margin-right: .5rem;
+      }
+    }
+    .backup-actions {
+      .backup-download {
+        padding: .075rem .45rem .25rem .45rem;
+        border-radius: 3px;
+        background: white;
+        margin-right: .5rem;
+        .k-icon svg {
+          width: .7rem;
+          height: .7rem;
+        }
+      }
+    }
+  }
+}
+
+.backup-filename { width: 40%; }
+.backup-size   { width: 20%; }
+.backup-date   { width: 20%; }
+.backup-actions  { width: 20%; text-align: right; }
+```
+
+
+(image: backups-04.png)
+
+This thing is starting to look nice, but there is one last thing we can do to make the next steps easier.
+
+Since we'll be reusing the `li.backup-entry` a lot, it makes sense to wrap it in its own component. First, let's create the component itself:
+
+```javascript "/src/components/BackupEntry.vue (create the file)""
+<template>
+  <li class="backup-entry">
+    <div class="backup-filename">
+      <k-icon type="backup" />
+      <span>{{ backup.filename }}</span>
+    </div>
+    <div class="backup-size">{{ backup.size }}</div>
+    <div class="backup-date">{{ backup.date }}</div>
+    <div class="backup-actions">
+      <k-button class="backup-download" icon="download">Download</k-button>
+      <k-button icon="trash" theme="negative"></k-button>
+    </div>
+  </li>
+</template>
+
+<script>
+export default {
+  // we register the backup object we're receiving from the parent component as a prop
+  // it is now callable in our template, {{ backup.filename }}, etc.
+  props: ['backup'],
+};
+</script>
+```
+
+Then we'll load it in our parent component, and replace the whole `<li class="backup-entry">` block with our newly registered `<backup-entry />` (if the hot-reload module throws an error at this point, simply reload the page):
+
+```javascript "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">(...)</k-header>
+
+    <section class="backups-section">
+      (...)
+      <ul class="backups-list">
+        // we loop in the backups array
+        // and pass each backup objet as a prop to our component :backup="backup"
+        <backup-entry v-for="backup in backups" :key="backup.filename" :backup="backup" />
+      </ul>
+      (...)
+    </section>
+  </k-view>
+</template>
+
+<script>
+// we import our newly created component
+import BackupEntry from './BackupEntry.vue'
+
+export default {
+  // we declare that we want to use it as <backup-entry>
+  components: {'backup-entry': BackupEntry},
+  data() {
+    return {
+      // we split the static value in a json object
+      backups: [
+        {
+          filename: 'backup-1586428551.zip',
+          size: '2.3 Mb',
+          date: '09/04/2020, 10:35:51'
+        }
+      ]
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+Once it's done our view should still display the same list, only now with the beauty of Vue the backups list is directly tied to the data `backups` array.
+
+The more objects we'll add in the array, the more `li.backup-entry` will be displayed:
+
+```javascript "/src/components/Backups.vue"
+(...)
+backups: [
+  {
+    filename: 'backup-1586428551.zip',
+    size: '2.3 Mb',
+    date: '09/04/2020, 10:35:51'
+  },
+  {
+    filename: 'backup-1586428552.zip',
+    size: '2.4 Mb',
+    date: '09/04/2020, 10:35:52'
+  },
+  {
+    filename: 'backup-1586428553.zip',
+    size: '2.5 Mb',
+    date: '09/04/2020, 10:35:53'
+  }
+]
+(...)
+```
+
+(image: backups-05.png)
+
+We're all set to start adding some actions!
+
+## Set the backups list logic
+
+<info>
+At this point, you should have the kirby-janitor plugin installed. I will use some endpoints and options provided by this plugin to generate the backups, find the backup directory, etc.
+</info>
+
+First, we need some dummy data.
+
+I find it better in the context of this plugin to have some human readable string in the backup's name, rather than only the timestamp:
+
+```php "/site/config/config.php"
+'bnomei.janitor.backupzip.prefix' => 'backup-',
+```
+
+Now create a few backups using Janitor, either with CLI or by adding this field anywhere and triggering it a few times:
+
+```yaml
+janitor:
+  type: janitor
+  label: Create a backup
+  progress: Creating backup...
+  job: backupZip
+```
+
+After creating a few backups, we now we want our backups list to reflect what is actually in the backup folder. To achieve this, we first register a new panel API route, that will scan the folder and return the backups list as an array:
+
+```php "/index.php"
+
+// we will use some of Kirby's Classes to manipulate files and directories on the server
+// https://getkirby.com/docs/reference/tools/dir
+// https://getkirby.com/docs/reference/tools/f
+use Kirby\Toolkit\Dir;
+use Kirby\Toolkit\F;
+
+Kirby::plugin('sylvainjule/backups', [
+  'api' => [
+    'routes' => [
+      [
+        'pattern' => 'backups/get-backups-list',
+        'action'  => function() {
+          $dir   = \Bnomei\BackupZipJob::directory();
+          $backups = Dir::read($dir);
+
+          // we want the most recent backups first
+          rsort($backups);
+
+          // for each backup, we want to return its filename, size and creation date
+          $backups = array_map(function($filename) use($dir) {
+            return [
+              'filename' => $filename,
+              'size'   => F::niceSize($dir .'/'. $filename),
+              'date'   => date('d/m/Y, H:i:s', F::modified($dir .'/'. $filename))
+            ];
+          }, $backups);
+
+          // we return the backups array
+          return $backups;
+        }
+      ]
+    ]
+  ]
+]);
+```
+
+Then in our Vue component, we call that route in the `[mounted()` hook](https://vuejs.org/v2/guide/instance.html#Instance-Lifecycle-Hooks):
+
+```javascript "/src/components/Backups.vue"
+(...)
+
+<script>
+import BackupEntry from './BackupEntry.vue'
+
+export default {
+  components: {'k-backup-entry': BackupEntry},
+  data() {
+    return {
+      backups: [],
+    }
+  },
+  mounted() {
+    this.$api.get('backups/get-backups-list')
+      // the $api wrapper already converts our response to JSON
+      .then(response => {
+        this.backups = response;
+      })
+  }
+};
+</script>
+
+(...)
+```
+
+Good, now we are displaying a list that reflects the content of the backups folder.
+
+Next on our list: we want the user to be able to download a backup by clicking on the *Download* button.
+
+Here's the catch: since our backups are stored in a protected `site/backups` folder (and we want to keep it that way), we can't just click on a link to download the backups. Instead, when the user clicks on the *Download* button, we copy the backup in a public `assets/backups-temp` folder and download the file from there.
+
+To do so, on `@click` on the button, we emit an event that tells the parent list that the user requested to download a backup, and pass the filename along:
+
+```javascript "src/components/BackupEntry.vue"
+<template>
+  (...)
+    <div class="backup-actions">
+      <k-button class="backup-download" icon="download" @click="$emit('download', backup.filename)">Download</k-button>
+      (...)
+    </div>
+  </li>
+</template>
+
+(...)
+```
+
+We then catch the event in the parent component, and trigger a `copyAndDownload` method:
+
+```javascript "src/components/Backups.vue"
+<template>
+  <k-view>
+    (...)
+
+    <section class="backups-section" v-if="backups.length">
+      (...)
+      <ul class="backups-list">
+        <backup-entry v-for="backup in backups" :key="backup.filename" :backup="backup" @download="copyAndDownload" />
+      </ul>
+    </section>
+  </k-view>
+</template>
+
+<script>
+(...)
+export default {
+  (...)
+  methods: {
+    copyAndDownload(filename) {
+      console.log('Trigger download:'+ filename);
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+We now register a new panel API route, that will actually copy the file and return the download url when it's done:
+
+```php "/index.php"
+(...)
+
+Kirby::plugin('sylvainjule/backups', [
+  'api' => [
+    'routes' => [
+      (...)
+      [
+        'pattern' => 'backups/copy-to-assets',
+        'action'  => function() {
+          $filename   = get('filename');
+          $dir    = \Bnomei\BackupZipJob::directory();
+          $path     = $dir . '/' . $filename;
+          $publicPath = kirby()->root('assets') .'/backups-temp/'. $filename;
+          $publicUrl  = kirby()->url('assets')  .'/backups-temp/'. $filename;
+
+          // we copy the file to its publicPath
+          F::copy($path, $publicPath);
+
+          // and we return the public url
+          return ['url' => $publicUrl];
+        }
+      ]
+    ]
+  ]
+]);
+```
+
+All that's left for us to do is call this route in our method:
+
+```javascript "src/components/Backups.vue"
+(...)
+
+<script>
+(...)
+export default {
+  (...)
+  methods: {
+    copyAndDownload(filename) {
+      this.$api.get('backups/copy-to-assets', {filename: filename})
+        .then(response => {
+          // if we get a public url, we trigger the download
+          if(response.url) window.location = response.url
+        })
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+Our download button is now working, but we're missing a finishing touch: the user would expect to have a download window opening on click on the button. Instead we trigger a route, wait for the server to copy the file, and only trigger the download once it's done. We should let the user know this by adding a *Downloading* state to the button:
+
+(image: backups-06.png)
+
+We will use [an animated svg loader icon](https://samherbert.net/svg-loaders/), and therefore need to register it:
+
+```javascript "/src/index.js"
+panel.plugin('example-plugin/backups', {
+  views: {(...)},
+  icons: {
+    (...)
+    backupsLoader: '<g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="1.75"><circle cx="7" cy="7" r="7.2" stroke="#000" stroke-opacity=".2"/><path d="M14.2,7c0-4-3.2-7.2-7.2-7.2" stroke="#000"><animateTransform attributeName="transform" type="rotate" from="0 7 7" to="360 7 7" dur="1s" repeatCount="indefinite"/></path></g></g>'
+  }
+});
+```
+
+We now tweak the `copyAndDownload` methods a bit to store the requested filename while our `$api` call is processing, and pass a `downloading` Boolean prop to our backup-entry components:
+
+```javascript "/src/components/Backups.vue"
+<template>
+  <k-view>
+    (...)
+
+    <section class="backups-section" v-if="backups.length">
+      (...)
+      <ul class="backups-list">
+        <backup-entry v-for="backup in backups" :key="backup.filename" :backup="backup"
+                :downloading="downloading == backup.filename"
+                @download="copyAndDownload" />
+      </ul>
+    </section>
+  </k-view>
+</template>
+
+<script>
+(...)
+export default {
+  data() {
+    return {
+      (...)
+      downloading: false,
+    }
+  },
+  (...)
+  methods: {
+    copyAndDownload(filename) {
+      this.downloading = filename
+
+      this.$api.get('backups/copy-to-assets', {filename: filename})
+        .then(response => {
+          if(response.url) window.location = response.url
+          this.downloading = false
+        })
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+In our backup-entry component, we register the prop and add an alternate disabled button:
+
+```php "/src/components/BackupEntry.vue"
+<template>
+  <li class="backup-entry">
+    (...)
+    <div class="backup-actions">
+      <k-button class="backup-download" icon="download" @click="$emit('download', backup.filename)" v-if="!downloading">Download</k-button>
+      <k-button class="backup-download" icon="backupsLoader" :disabled="true" v-else>Downloading</k-button>
+      (...)
+    </div>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['backup', 'downloading'],
+};
+</script>
+```
+
+And add a CSS line to make sure our disabled button keeps a full opacity:
+
+```scss
+.k-backups-view-header, .backups-list {
+  .k-button[data-disabled] { opacity: 1; }
+}
+```
+
+We're good to go:
+
+(video: backups-07.mp4 style:--aspect-ratio:30/4 autoplay: true muted: true loop: true controls: false)
+
+But wait. The backups get copied in the `asset/backups-temp` but never get deleted from it and stay publicly accessible, which kind of defeats the purpose of storing them in a protected folder in the first place. To solve this, we should delete the public folder when the user is done with the view.
+
+We create a new API route:
+
+```php "/index.php"
+(...)
+
+Kirby::plugin('example-plugin/backups', [
+  'api' => [
+    'routes' => [
+      (...)
+      [
+        'pattern' => 'backups/delete-public-backups',
+        'method'  => 'POST', // we need to explicitely set that we want it to respond to POST requests
+        'action'  => function() {
+          $publicPath = kirby()->root('assets') .'/backups-temp';
+
+          if(Dir::exists($publicPath)) {
+            Dir::remove($publicPath);
+          }
+
+          return [];
+        }
+      ]
+    ]
+  ]
+]);
+
+```
+
+And we call it when the user leaves the Backups view (or reloads the page):
+
+```javascript
+<script>
+(...)
+  mounted() {
+    (...)
+    window.beforeunload = this.deletePublicBackups();
+  },
+  destroyed() {
+    this.deletePublicBackups();
+  },
+  methods: {
+    deletePublicBackups() {
+      this.$api.post('backups/delete-public-backups');
+    },
+  (...)
+</script>
+```
+
+Now onto the delete button. In our backup-entry component, we emit a `delete` event on click on the button:
+
+```javascript "/src/components/BackupEntry.vue"
+<template>
+(...)
+  <k-button icon="trash" theme="negative" @click="$emit('delete')"></k-button>
+(...)
+</template>
+```
+
+When this `delete` event pops up in our parent component we call a new `backups/delete-backup` API route, and when successfully deleted in the server we remove it from the parent component's backups array:
+
+```javascript "/src/components/Backups.vue"
+<template>
+  (...)
+  <backup-entry v-for="backup in backups" :key="backup.filename" :backup="backup"
+          :downloading="downloading == backup.filename"
+          @download="copyAndDownload"
+          @delete="deleteBackup(backup)" />
+  (...)
+</template>
+
+<script>
+(...)
+
+export default {
+  (...)
+  methods: {
+    deleteBackup(backup) {
+      this.$api.post('backups/delete-backup', {filename: backup.filename})
+        .then(response => {
+          if(response.deleted) {
+            this.backups = this.backups.filter(el => el.filename !== backup.filename);
+          }
+        })
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+In our `index.php`, this new `backups/delete-backup` route looks like this:
+
+```php "/index.php"
+Kirby::plugin('example-plugin/backups', [
+  'api' => [
+    'routes' => [
+      (...)
+      [
+        'pattern' => 'backups/delete-backup',
+        'method'  => 'POST', // we need to explicitely set that we want it to respond to POST requests
+        'action'  => function() {
+          $dir    = \Bnomei\BackupZipJob::directory();
+          $filename = get('filename');
+          $path   = $dir .'/'. $filename;
+          $deleted  = false;
+
+          if(F::exists($path)) {
+            F::remove($path);
+            $deleted = true;
+          }
+
+          return ['deleted' => $deleted];
+        }
+      ]
+    ]
+  ]
+]);
+```
+
+Let's try it out:
+
+(video: backups-08.mp4 style:--aspect-ratio:4/1.25 autoplay: true muted: true loop: true controls: false)
+
+It works, but we are missing a few things:
+
+- There is no safety guard before a backup gets deleted. We should ask the user to confirm their choice of deleting a given backup, to prevent any unintentional deletion.
+- The empty state feels kind of broken, we'd better display a placeholder message.
+
+Back to our `Backups.vue` component:
+
+```html "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">(...)</k-header>
+
+    // v-if / v-else allow us to display either a placeholder or the backups list depending of the length of the backups array
+    <section class="backups-section" v-if="backups.length">
+       (...)
+        <backup-entry v-for="backup in backups" :key="backup.filename" :backup="backup"
+                :downloading="downloading == backup.filename"
+                @download="copyAndDownload"
+                @delete="openDeleteDialog(backup)" />
+       (...)
+    </section>
+    <div class="backups-placeholder" v-else>
+      There is no backup to display
+    </div>
+
+    // we add a dialog component with the ref 'delete-dialog'
+    <k-dialog size="medium" ref="delete-dialog" theme="negative" icon="trash" button="Yes, delete it"
+          @close="resetDelete" @cancel="resetDelete" @submit="deleteBackup">
+      <k-text>You are about to delete <strong>{{ this.toDelete.filename }}</strong></k-text>
+    </k-dialog>
+  </k-view>
+</template>
+
+<script>
+(...)
+export default {
+  (...)
+  data() {
+    return {
+      (...)
+      toDelete: {},
+    }
+  },
+  (...)
+  methods: {
+    // we register the backup that is about to be deleted and open the dialog
+    openDeleteDialog(backup) {
+      this.toDelete = backup;
+      this.$refs['delete-dialog'].open();
+    },
+    // on cancel / close of the dialog, we reset the toDelete variable
+    resetDelete() {
+      this.toDelete = {}
+    },
+    // on @submit of the dialog, we delete the backup as we did before, and then close the dialog
+    deleteBackup() {
+      this.$api.post('backups/delete-backup', {filename: this.toDelete.filename})
+        .then(response => {
+          if(response.deleted) {
+            this.backups = this.backups.filter(el => el.filename !== this.toDelete.filename);
+          }
+          this.$refs['delete-dialog'].close();
+        })
+    }
+  }
+};
+</script>
+
+(...)
+```
+
+We also add some style for this new `backups-placeholder` block:
+
+```css
+.backups-placeholder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .875rem;
+  background: #e8e8e8;
+  padding: 1.5rem 2rem;
+}
+```
+
+It's looking much better, and that will be it for the list's logic:
+
+(video: backups-09.mp4 style:--aspect-ratio:7.5/4 autoplay: true muted: true loop: true controls: false)
+
+## Set the header's "Create a new backup" logic
+
+For this button we won't have to create the ZIP logic since we will be triggering kirby-janitor's one.
+
+We want 4 possible states : Default / In progress / Successful / Failed
+
+(image: backups-10.png)
+
+To do so, in our main `Backups` component we add a `creationStatus` variable, that we will use in a conditional `v-if / v-else`:
+
+```html "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">
+      Backups
+      <k-button-group slot="left">
+        // what will be displayed as the default button
+        <k-button v-if="creationStatus == 'default'" icon="add" @click="createBackup">Create a new backup</k-button>
+        // what will be displayed during the backup creation
+        <k-button v-else-if="creationStatus == 'progress'" icon="backupsLoader" :disabled="true">Creating the backup</k-button>
+        // what will be displayed for a few seconds if the creation was successful
+        <k-button v-else-if="creationStatus == 'success'" icon="check" :disabled="true" theme="positive">Backup successfully created</k-button>
+        // what will be displayed for a few seconds if the creation failed
+        <k-button v-else-if="creationStatus == 'error'" icon="alert" :disabled="true" theme="negative">An error occurred during the backup creation</k-button>
+      </k-button-group>
+      (...)
+    </k-header>
+    (...)
+  </k-view>
+</template>
+
+<script>
+(...)
+
+export default {
+  (...)
+  data() {
+    return {
+      (...)
+      creationStatus: 'default',
+    }
+  },
+  (...)
+  methods: {
+    createBackup() {
+      // user has clicked on the button, the creation begins
+      this.creationStatus = 'progress';
+
+      // we call the route provided by the janitor plugin and on success / error, act accordingly
+      this.$api.get('plugin-janitor/backupZip')
+        .then(response => {
+          this.setCreationStatus(response.status, true)
+
+          // if the creation was successfull, we add the new backup on top of the list
+          if(response.status == 200) {
+            let newBackup = {
+              filename: response.filename + '.zip',
+              size: response.nicesize,
+              date: response.modified
+            }
+
+            this.backups.unshift(newBackup)
+          }
+        })
+        .catch(error => {
+          this.setCreationStatus('error', true);
+        })
+    },
+    setCreationStatus(status, resetAfter = true) {
+      // we set the new creationStatus depending on the status code returned by janitor
+      this.creationStatus = status == 200 ? 'success' : 'error';
+
+      // we only display the success / error message for 2 seconds, then back to the original state
+      if(resetAfter) {
+        setTimeout(() => {
+          this.creationStatus = 'default'
+        }, 2000);
+      }
+    },
+    (...)
+  }
+};
+</script>
+
+(...)
+```
+
+Let's give it a shot:
+
+(video: backups-11.mp4 style:--aspect-ratio:11.5/4 autoplay: true muted: true loop: true controls: false)
+
+
+## Set the header's "Download the latest backup" logic
+
+This one will actually be pretty straightforward, since we already created the `copyAndDownload` method when we set up the list. We need to tweak it a little, though.
+
+First, we add a `v-if="backups.length"` condition to the right-buttons' block, in order to show it only if there are some listed backups.
+
+```html "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">
+      (...)
+      <k-button-group slot="right" v-if="backups.length">
+        <k-button icon="download">Download the latest backup</k-button>
+        (...)
+      </k-button-group>
+    </k-header>
+  (...)
+</template>
+```
+
+We then adjust the `copyAndDownload` method to replace a `'latest'` param into the latest backup's filename:
+
+```html "/src/components/Backups.vue"
+<script>
+(...)
+export default {
+  (...)
+  methods: {
+    copyAndDownload(filename) {
+      this.downloading = filename
+
+      filename = filename == 'latest' ? this.backups[0].filename : filename
+
+      this.$api.get('backups/copy-to-assets', {filename: filename})
+        .then(response => {
+          if(response.url) window.location = response.url
+          this.downloading = false
+        })
+    }
+  }
+};
+</script>
+```
+
+Finally, we call the method on click on the header's button, and add a *Downloading* state for it too:
+
+```html "/src/components/Backups.vue"
+<template>
+  <k-view class="k-backups-view">
+    <k-header class="k-backups-view-header">
+      (...)
+      <k-button-group slot="right" v-if="backups.length">
+        <k-button icon="download" @click="copyAndDownload('latest')" v-if="downloading !== 'latest'">Download the latest backup</k-button>
+        <k-button icon="backupsLoader" :disabled="true" v-else>Downloading</k-button>
+        (...)
+      </k-button-group>
+    </k-header>
+  (...)
+</template>
+```
+
+Testing it out:
+
+(video: backups-12.mp4 style:--aspect-ratio:11.5/4 autoplay: true muted: true loop: true controls: false)
+
+## Translate the plugin
+
+The plugin is almost ready, but for now it is english-friendly only. With only a few steps, we can make it compatible with the Kirby built-in i18n.
+
+First we create language files, here English and French :
+
+```php "/languages/en.php (create this file)""
+<?php
+
+return [
+  'view.backups' => 'Backups',
+
+  'backups.create'       => 'Create a new backup',
+  'backups.create.progress'  => 'Creating the backup',
+  'backups.create.success'   => 'Backup successfully created',
+  'backups.create.error'   => 'An error occurred during the backup creation',
+  ...
+];
+```
+
+```php "languages/fr.php (create this file)"
+<?php
+
+return [
+  'view.backups' => 'Sauvegardes',
+
+  'backups.create'       => 'Créer une nouvelle sauvegarde',
+  'backups.create.progress'  => 'Sauvegarde en cours',
+  'backups.create.success'   => 'La sauvegarde a été réalisée avec succès',
+  'backups.create.error'   => 'Une erreur s\'est produite lors de la sauvegarde'
+  ...
+];
+```
+
+Then we register them in our plugin:
+
+```php "/index.php"
+Kirby::plugin('example-plugin/backups', [
+  'translations' => [
+    'en' => require_once __DIR__ . '/languages/en.php',
+    'fr' => require_once __DIR__ . '/languages/fr.php',
+  ],
+  (...)
+]);
+```
+
+The `view.backups` key is looked for automatically by Kirby. This means that we can remove the `label` value from our JS:
+
+```javascript "src/index.js"
+(...)
+
+panel.plugin('example-plugin/backups', {
+  views: {
+    backups: {
+      ~~label: 'Backups',~~
+      icon: 'backups',
+      component: Backups,
+    }
+  },
+  (...)
+});
+```
+
+And replace all our strings with the `$t('key')` helper (I'm not going to do them all here, you get the idea):
+
+```javascript "src/components/Backups.vue"
+(...)
+<k-header class="k-backups-view-header">
+  {{ $t('view.backups') }}
+  <k-button-group slot="left">
+    <k-button v-if="creationStatus == 'default'" icon="add" @click="createBackup">{{ $t('backups.create') }}</k-button>
+    <k-button v-else-if="creationStatus == 'progress'" icon="backupsLoader" :disabled="true">{{ $t('backups.create.process') }}</k-button>
+    <k-button v-else-if="creationStatus == 'success'" icon="check" :disabled="true" theme="positive">{{ $t('backups.create.success') }}</k-button>
+    <k-button v-else-if="creationStatus == 'error'" icon="alert" :disabled="true" theme="negative">{{ $t('backups.error') }}</k-button>
+  (...)
+```
+
+## Wrapping up
+
+When you're done, stop the `dev` script and run `npm run build`.
+
+You should end up with a completely functional Backups view!
+
+[The Backups plugin](https://github.com/sylvainjule/kirby-backups) has a few more functionalities, hopefully using this guide as a starting point you will be able to figure them out from the source code.
+
+The final code of this guide [is in a dedicated `cookbook` branch](https://github.com/sylvainjule/kirby-backups/tree/cookbook) (where I also added some CSS rules to make the view responsive), so that if any problem occurs you can compare your code with a working one.
+
+Many thanks to Bruno Meilick for making adjustments to the janitor plugin, in order to make this guide easier to cope with.

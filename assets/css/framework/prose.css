@@ -67,6 +67,7 @@
 .prose * + ol,
 .prose * + ul,
 .prose * + .screencast,
+.prose * + .video,
 .prose * + .since,
 .prose * + .table {
   margin-top: 1.5em;
