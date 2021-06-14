@@ -14,13 +14,21 @@
           <?= icon('search') ?> Search
         </button>
       </li>
-      <li><hr class="hr"></li>
-      <?php foreach ($categories as $categoryId => $category): ?>
       <li>
-        <a aria-label="<?= $category['label'] ?> plugins" href="/plugins/category:<?= $categoryId ?>"<?= ariaCurrent($categoryId === $currentCategory) ?>>
-          <?= icon($category['icon']) ?> <?= $category['label'] ?>
+        <a href="/submit-plugin">
+          <!-- @todo: use `plus` icon after fixed, currently plus icon dimensions are broken -->
+          <?= icon('git') ?> Submit Plugin
         </a>
       </li>
+      <li>
+        <hr class="hr">
+      </li>
+      <?php foreach ($categories as $categoryId => $category): ?>
+        <li>
+          <a aria-label="<?= $category['label'] ?> plugins" href="/plugins/category:<?= $categoryId ?>"<?= ariaCurrent($categoryId === $currentCategory) ?>>
+            <?= icon($category['icon']) ?> <?= $category['label'] ?>
+          </a>
+        </li>
       <?php endforeach ?>
     </ul>
   </div>

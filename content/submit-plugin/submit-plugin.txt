@@ -1,0 +1,9 @@
+Title: Submit Plugin
+
+----
+
+Description: Submit your plugin to getkirby.com plugins directory.
+
+----
+
+Priority: .5
