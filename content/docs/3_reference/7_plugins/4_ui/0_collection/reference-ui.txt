@@ -1,8 +1,6 @@
-Title: Collection
-----
 Text:
 
-The `k-collection` component is a wrapper around `k-cards` and `k-list-items` that makes it easy to switch between the two layouts and adds sortabilty and pagination to the items.
+## Example
 
 ```html
 <k-collection layout="cards" :items="[
@@ -23,43 +21,3 @@ The `k-collection` component is a wrapper around `k-cards` and `k-list-items` th
   }
 ]" />
 ```
-
-## Props
-
-### items
-
-`Array|Object (default: [])`
-
-### layout
-
-`String (default: "list")`
-
-### sortable
-
-`Boolean (default: false)`
-
-### pagination
-
-`Boolean|Object (default: false)`
-
-## Events
-
-### action
-
-Emitted on every dropdown action / option
-
-### change
-
-Emitted whenever the sorting changes
-
-### paginate
-
-Emitted when the pagination changes
-
-### sort
-
-Emitted when the sorting has stopped
-
-## CSS class
-
-`.k-collection`

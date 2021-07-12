@@ -1,10 +1,9 @@
-Title: Cards
-----
 Text:
 
-The Cards component builds a very responsive grid of cards from the given cards option or by injecting cards into the default slot.
 
-## Cards Option
+## Content
+
+### Via prop
 
 ```html
 <k-cards
@@ -16,9 +15,9 @@ The Cards component builds a very responsive grid of cards from the given cards 
 />
 ```
 
-Check out the [Card component](./card) documentation for all available options for each card.
+Check out the [`<k-card>` component](./card) documentation for all available options for each card.
 
-## Default Slot
+### Default Slot
 
 If you need more control over each card, you can inject cards manually
 

@@ -1,6 +1,8 @@
-Title: Checkboxes Field
-----
 Text:
+
+In addition, inherits the props from [`<k-field>`](./field), [`<k-input>`](./input) and [`<k-checkboxes-input>`](./checkboxes-input).
+
+## Example
 
 ```html
 <k-checkboxes-field
@@ -17,43 +19,3 @@ Text:
 	@input="input"
 />
 ```
-
-## Props
-
-(docs: fields/props/autofocus)
-
-(docs: fields/props/disabled)
-
-(docs: fields/props/help)
-
-(docs: fields/props/label)
-
-(docs: fields/props/max)
-The maximum number of allowed selections.
-
-(docs: fields/props/min)
-The minimum number of required selections
-
-(docs: fields/props/name)
-
-(docs: fields/props/options)
-
-(docs: fields/props/required)
-
-### value / v-model
-
-`Array | String (default: null)`
-
-The value for the input should be provided as array. Each value in the array corresponds with the value in the options. If you provide a string, the string will be split by comma.
-
-## Methods
-
-(docs: fields/methods/focus)
-
-## Events
-
-(docs: fields/events/input)
-
-## CSS class
-
-`.k-checkboxes-field`

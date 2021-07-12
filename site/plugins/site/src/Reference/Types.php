@@ -140,12 +140,14 @@ class Types
             return implode('<span class="px-1">|</span>', $types);
         }
 
-        // Native PHP datatype
+        // Native PHP/JS datatypes
         $native = [
             'string',
             'int',
             'float',
+            'number',
             'bool',
+            'boolean',
             'array',
             'object',
             'mixed',

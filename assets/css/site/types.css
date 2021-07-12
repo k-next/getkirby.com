@@ -10,10 +10,12 @@
 .type.type-int {
   background: var(--color-orange-300);
 }
-.type.type-float {
+.type.type-float,
+.type.type-number {
   background: var(--color-red-300);
 }
-.type.type-bool {
+.type.type-bool,
+.type.type-boolean {
   background: var(--color-purple-300);
 }
 .type.type-array {

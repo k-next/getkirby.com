@@ -1,14 +1,6 @@
-Title: Range Field
-----
 Text:
 
-## Basic example
-
-```html
-<k-range-field v-model="range" name="range" label="Slider" />
-```
-
-## Advanced example
+## Example
 
 ```html
 <k-range-field
@@ -25,45 +17,7 @@ Text:
 />
 ```
 
-## Props
-
-(docs: fields/props/after)
-
-(docs: fields/props/autofocus)
-
-(docs: fields/props/before)
-
-(docs: fields/props/disabled)
-
-(docs: fields/props/help)
-
-(docs: fields/props/icon)
-
-(docs: fields/props/label)
-
-(docs: fields/props/max)
-
-The highest accepted number
-
-(docs: fields/props/min)
-
-The lowest required number
-
-(docs: fields/props/name)
-
-(docs: fields/props/required)
-
-### step
-
-`Number (default: 1)`
-
-The amount to increment when dragging the slider. This can be a decimal.
-
-### tooltip
-
-`Boolean|Object (default: false)`
-
-The slider tooltip can have text before and after the value.
+## Tooltip
 
 ```html
 <k-range-input
@@ -73,19 +27,3 @@ The slider tooltip can have text before and after the value.
 	}"
 />
 ```
-
-### value / v-model
-
-`Number (default: null)`
-
-## Methods
-
-(docs: fields/methods/focus)
-
-## Events
-
-(docs: fields/events/input)
-
-## CSS class
-
-`.k-range-field`

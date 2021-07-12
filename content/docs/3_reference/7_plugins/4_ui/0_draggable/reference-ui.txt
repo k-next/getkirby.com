@@ -1,16 +1,6 @@
-Title: Draggable
-----
 Text:
 
-The Draggable component implements the [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) library which is a wrapper for the widespread [Sortable.js](https://github.com/RubaXa/Sortable) library.
-
-```html
-<k-draggable>
-  <li>Drag me.</li>
-  <li>Or me.</li>
-  <li>Drop it!</li>
-</k-draggable>
-```
-
+<info>
 Please find all documentation regarding the possibilities over on the [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable) documentation. Whenever you read `<draggable>` there, think `<k-draggable>`.
+</info>
 

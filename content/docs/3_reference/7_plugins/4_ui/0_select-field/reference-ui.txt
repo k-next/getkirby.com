@@ -1,6 +1,6 @@
-Title: Select Field
-----
 Text:
+
+## Example
 
 ```html
 <k-select-field
@@ -16,53 +16,3 @@ Text:
 	@input="input"
 />
 ```
-
-## Props
-
-(docs: fields/props/after)
-
-(docs: fields/props/autofocus)
-
-(docs: fields/props/before)
-
-(docs: fields/props/disabled)
-
-### empty
-
-`String (default: "-")`
-
-The text, that is shown as the first empty option, when the field is not required.
-
-(docs: fields/props/help)
-
-(docs: fields/props/icon)
-
-(docs: fields/props/label)
-
-(docs: fields/props/name)
-
-(docs: fields/props/options)
-
-### placeholder
-
-`String (default: "-")`
-
-The text, that is shown when now option is selected yet.
-
-(docs: fields/props/required)
-
-### value / v-model
-
-`String|Number|Boolean (default: null)`
-
-## Methods
-
-(docs: fields/methods/focus)
-
-## Events
-
-(docs: fields/events/input)
-
-## CSS class
-
-`.k-select-field`

@@ -1,12 +1,4 @@
-Title: Tag
-----
 Text:
-
-The Tag Button is mostly used in the Tags input component
-
-```html
-<k-tag>Design</k-tag>
-```
 
 ## Deletable tags
 
@@ -15,21 +7,3 @@ Tags can have a "remove" button and a connected remove event
 ```html
 <k-tag :removable="true" @remove="removeTag">Design</k-tag>
 ```
-
-## Props
-
-### removable
-
-`Boolean (default: null)`
-
-Enables the remove button
-
-## Events
-
-### remove
-
-This event is emitted when the remove button is being clicked or the tag is focussed and the delete key is entered.
-
-## CSS Class
-
-`.k-tag`

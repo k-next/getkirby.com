@@ -1,6 +1,6 @@
-Title: Select Input
-----
 Text:
+
+## Example
 
 ```html
 <k-input
@@ -13,55 +13,3 @@ Text:
 	type="select"
 />
 ```
-
-## Props
-
-(docs: inputs/props/after)
-
-(docs: inputs/props/autofocus)
-
-(docs: inputs/props/before)
-
-(docs: inputs/props/disabled)
-
-### empty
-
-`String (default: "-")`
-
-The text, that is shown as the first empty option, when the field is not required.
-
-(docs: inputs/props/icon)
-
-(docs: inputs/props/id)
-
-(docs: inputs/props/name)
-
-(docs: inputs/props/options)
-
-### placeholder
-
-`String (default: "-")`
-
-The text, that is shown when now option is selected yet.
-
-(docs: inputs/props/required)
-
-(docs: inputs/props/theme)
-
-### value / v-model
-
-`String|Number|Boolean (default: null)`
-
-## Methods
-
-(docs: inputs/methods/focus)
-
-## Events
-
-(docs: inputs/events/input)
-
-(docs: inputs/events/invalid)
-
-## CSS class
-
-`.k-select-input`

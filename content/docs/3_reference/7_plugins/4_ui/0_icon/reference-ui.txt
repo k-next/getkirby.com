@@ -1,84 +1,13 @@
-Title: Icon
-----
 Text:
-
-The icon component can be used to display any icon from our own icon set.
-
-```html
-<k-icon type="pencil" />
-```
 
 ## Available icons
 
 (reference: panel/icons)
 
-## Props
+## Emoji support
 
-### alt
-
-`String`
-
-For better accessibility of icons, you can pass an additional alt attribute like for images.
-
-```html
-<k-icon type="pencil" alt="Edit something" />
-```
-
-### back
-
-`String`
-
-Like with the `k-image` component, you can set the background for the icon. By default, the background is transparent. Here are the available `back` options:
-
-- `black`
-- `white`
-- `pattern`
-
-```html
-<k-icon type="add" back="black" />
-```
-
-### emoji
-
-`Boolean (default: false)`
-
-You can pass an emoji as icon type, but in this case you also have to set `:emoji="true"` in order to display the emoji correctly.
+You can pass an emoji as icon type:
 
 ```html
 <k-icon type="😱" :emoji="true" />
 ```
-
-### size
-
-`String`
-
-By default the icon size is set to `1rem = 16px`, which corresponds with the Panel font size. Additional sizes are:
-
-**regular**
-`1rem = 16px`
-
-**medium**
-`2rem = 32px`
-
-**large**
-`3rem = 48px`
-
-```html
-<k-icon type="add" size="medium" />
-<k-icon type="add" size="large" />
-```
-
-### type
-
-`String`
-
-Select the icon with this attribute.
-
-```html
-<k-icon type="add" />
-<k-icon type="trash" />
-```
-
-## CSS class
-
-`.k-icon`

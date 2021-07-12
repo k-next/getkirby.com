@@ -1,8 +1,6 @@
-Title: Dropzone
-----
 Text:
 
-The dropzone component helps to simplify creating areas, where files can be dropped and uploaded or displayed. You simply wrap it around any other element to create the zone. The dropzone will also create a focus ring around the area when the user drags files over it.
+## Example
 
 ```html
 <template>
@@ -23,21 +21,3 @@ export default {
 };
 </script>
 ```
-
-## Props
-
-### disabled
-
-`Boolean (default: false)`
-
-You can deactivate the dropzone with this property
-
-## Events
-
-### @drop
-
-The drop event is triggered when files are being dropped into the dropzone. The event receives the files list as argument, which can then be used to start an upload for example.
-
-## CSS class
-
-`.k-dropzone`

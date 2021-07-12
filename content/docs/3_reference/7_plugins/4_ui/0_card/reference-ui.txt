@@ -1,145 +1,24 @@
-Title: Card
-----
 Text:
-
-The Card component is a very flexible tool to display an image together with a title (text) some meta information (info) and a dropdown with options.
 
 ## Example
 
 ```html
-<k-card
-  :image="{
-    ratio: '3/2',
-    cover: true,
-    back: 'pattern',
-    url: 'https://picsum.photos/400/400?random'
-  }"
-  :options="[
-    {icon: 'edit', text: 'Edit'},
-    {icon: 'trash', text: 'Delete'}
-  ]"
-  text="Some image from unsplash"
-  info="random-unsplash.jpg"
-  link="https://unsplash.com/"
-  target="_blank"
-/>
-```
-
-## Props
-
-### flag
-
-`Object (default: null)`
-
-An additional button left next to the options toggle,
-which can be used to define any additional "flag" or option for the card.
-
-```html
-<k-card
-  :flag="{
-    icon: 'trash',
-    click: someClickHandler
-  }"
-/>
-```
-
-### icon
-
-`String (default: null)`
-
-Defines the card icon instead of an image. If an image is still defined,
-the image will be used instead of the icon and this setting will be ignored.
-
-```html
-<k-card
-  :icon="{
-    type: 'file',
-    back: 'black'
-  }"
-/>
-```
-
-### image
-
-`Object (default: null)`
-
-Defines the card image
-
-```html
-<k-card
-  :image="{
-    url: 'https://picsum.photos/400/400?random',
-    ratio: '1/1',
-    back: 'pattern',
-    cover: true
-  }"
-/>
-```
-
-### info
-
-`String (default: null)`
-
-Sets the secondary info text
-
-### link
-
-`String (default: null)`
-
-Sets the link for the entire card
-
-### options
-
-`Array|Function (default: null)`
-
-Defines the options dropdown.
-
-```html
-<k-card
-  :options="[
-    {icon: 'edit', text: 'Edit'},
-    {icon: 'trash', text: 'Delete'}
-  ]"
-/>
-```
-
-### target
-
-`String (default: null)`
-
-Sets the link target
-
-### text
-
-`String (default null)`
-
-Sets the primary card text
-
-## Slots
-
-### options
-
-You can overwrite the options button and dropdown with your own elements:
-
-```html
-<k-card text="Some text" image="{ url: 'https://picsum.photos/400/400?random' }">
-  <k-button slot="options" type="check" />
-</k-card>
-```
-
-## Events
-
-### action
-
-If you've defined the options dropdown, each click on a dropdown item will emmit the `action` event.
-
-```html
 <template>
   <k-card
+    :image="{
+      ratio: '3/2',
+      cover: true,
+      back: 'pattern',
+      url: 'https://picsum.photos/400/400?random'
+    }"
     :options="[
       {icon: 'edit', text: 'Edit', click: 'edit'},
       {icon: 'trash', text: 'Delete', click: 'delete'}
     ]"
+    text="Some image from unsplash"
+    info="random-unsplash.jpg"
+    link="https://unsplash.com/"
+    target="_blank"
     @action="action"
   />
 </template>
@@ -161,7 +40,3 @@ export default {
 };
 </script>
 ```
-
-## CSS class
-
-`.k-card`

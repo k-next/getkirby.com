@@ -1,50 +1,6 @@
-Title: Range Input
-----
 Text:
 
-```html
-<k-input v-model="range" name="range" type="range" />
-```
-
-## Props
-
-(docs: inputs/props/after)
-
-(docs: inputs/props/autofocus)
-
-(docs: inputs/props/before)
-
-(docs: inputs/props/disabled)
-
-(docs: inputs/props/icon)
-
-(docs: inputs/props/id)
-
-(docs: inputs/props/max)
-
-The highest accepted number
-
-(docs: inputs/props/min)
-
-The lowest required number
-
-(docs: inputs/props/name)
-
-(docs: inputs/props/required)
-
-### step
-
-`Number (default: 1)`
-
-The amount to increment when dragging the slider. This can be a decimal.
-
-(docs: inputs/props/theme)
-
-### tooltip
-
-`Boolean|Object (default: false)`
-
-The slider tooltip can have text before and after the value.
+## Tooltip
 
 ```html
 <k-range-input
@@ -54,21 +10,3 @@ The slider tooltip can have text before and after the value.
 	}"
 />
 ```
-
-### value / v-model
-
-`Number (default: null)`
-
-## Methods
-
-(docs: inputs/methods/focus)
-
-## Events
-
-(docs: inputs/events/input)
-
-(docs: inputs/events/invalid)
-
-## CSS class
-
-`.k-range-input`

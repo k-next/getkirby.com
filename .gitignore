@@ -44,6 +44,9 @@ Icon
 /site/plugins/*/vendor/**/php4/*
 /site/plugins/ray
 
+# UI Kit cruft
+# ---------------
+/assets/ui.json
 
 # Lock files
 # ---------------

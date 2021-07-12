@@ -1,8 +1,6 @@
-Title: Form
-----
 Text:
 
-The Form component takes a fields definition and a value/v-model to create a full featured form with grid and everything. If you "just" need the fields, go for the Fieldset component instead.
+## Example
 
 ```html
 <template>
@@ -51,46 +49,6 @@ export default {
 </script>
 ```
 
-## Props
-
-### fields
-
-`Object (default: null)`
-
-### validate
-
-`Boolean (default: false)`
-
-If true, all form fields will show their validation status on the fly.
-
-### value (v-model)
-
-`Object (default: null)`
-
-## Methods
-
-### focus(name)
-
-Focus a specific field in the fieldset or the first one if no name is given
-
-### submit()
-
-Submit the form dynamically
-
-## Events
-
-### input
-
-Triggered whenever any field value changes
-
-### submit
-
-Triggered when the form is submitted. This can be done in most inputs by hitting enter. It can also be triggered by a field component by firing a `submit` event. This will bubble up to the Form and trigger a submit there as well. This is used in the textarea component for example to link the `cmd+enter` shortcut to a submit.
-
 ## Keyboard Shortcuts
 
 The Form component automatically registers the `cmd+s` shortcut to submit the form.
-
-## CSS Class
-
-`.k-form`

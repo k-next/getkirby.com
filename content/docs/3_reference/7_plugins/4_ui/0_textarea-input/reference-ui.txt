@@ -1,32 +1,13 @@
-Title: Textarea Input
-----
 Text:
 
-```html
-<k-input v-model="text" name="text" type="textarea" />
-```
-
-## Props
-
-(docs: inputs/props/after)
-
-(docs: inputs/props/autofocus)
-
-(docs: inputs/props/before)
-
-### buttons
-
-`Array|Boolean (default: true)`
-
-Enables or disables all or specific buttons in the toolbar.
-
-#### No toolbar
+## Toolbar
+### No toolbar
 
 ```html
 <k-textarea-field :buttons="false" />
 ```
 
-#### Only selected buttons
+### Only selected buttons
 
 ```html
 <k-textarea-field :buttons="['bold', 'italic']" />
@@ -42,53 +23,4 @@ Available buttons:
 - `code`
 - `ol`
 - `ul`
-
-(docs: inputs/props/disabled)
-
-(docs: inputs/props/icon)
-
-(docs: inputs/props/id)
-
-(docs: inputs/props/maxlength)
-
-(docs: inputs/props/minlength)
-
-(docs: inputs/props/name)
-
-(docs: inputs/props/placeholder)
-
-(docs: inputs/props/required)
-
-### size
-
-`String (default: null)`
-
-Pre-selects the size before auto-sizing kicks in. This can be useful to fill gaps in field layouts. Available sizes:
-
-- `small`
-- `medium`
-- `large`
-- `huge`
-
-(docs: inputs/props/spellcheck)
-
-(docs: inputs/props/theme)
-
-### value / v-model
-
-`String (default: null)`
-
-## Methods
-
-(docs: inputs/methods/focus)
-
-## Events
-
-(docs: inputs/events/input)
-
-(docs: inputs/events/invalid)
-
-## CSS class
-
-`.k-textarea-input`
 

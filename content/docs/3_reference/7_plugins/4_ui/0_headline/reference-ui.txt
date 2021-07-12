@@ -1,45 +1,4 @@
-Title: Headline
-
-----
-
 Text:
-
-```html
-<k-headline>This is a nice headline</k-headline>
-```
-
-## Props
-
-### link
-
-`String (Default: null)`
-
-You can set a link for the headline. The link can be absolute or relative.
-
-### size
-
-`String (Default: "medium")`
-
-Sets the text size. Available sizes:
-
-- `tiny`
-- `small`
-- `medium`
-- `large`
-- `huge`
-
-### tag
-
-`String (Default: "h2")`
-
-Sets the html tag for the headline element.
-
-### theme
-
-`String (Default: null)`
-
-- `positive`
-- `negative`
 
 ## Events
 

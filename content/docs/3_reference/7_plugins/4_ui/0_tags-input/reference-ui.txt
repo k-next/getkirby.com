@@ -1,6 +1,6 @@
-Title: Tags Input
-----
 Text:
+
+## Example
 
 ```html
 <k-input
@@ -13,55 +13,3 @@ Text:
   type="tags"
 />
 ```
-
-## Props
-
-(docs: inputs/props/autofocus)
-
-(docs: inputs/props/disabled)
-
-(docs: inputs/props/icon)
-
-(docs: inputs/props/id)
-
-### layout
-
-`String (default: null)`
-
-You can set the layout to `list` to extend the width of each tag to 100% and show them in a list. This is handy in narrow columns or when a list is a more appropriate design choice for the input in general.
-
-(docs: inputs/props/max)
-
-The maximum number of accepted tags
-
-(docs: inputs/props/min)
-
-The minimum number of required tags
-
-(docs: inputs/props/name)
-
-(docs: inputs/props/options)
-
-Options will be shown in the autocomplete dropdown as soon as you start typing.
-
-(docs: inputs/props/required)
-
-(docs: inputs/props/theme)
-
-### value / v-model
-
-`Array (default: null)`
-
-## Methods
-
-(docs: inputs/methods/focus)
-
-## Events
-
-(docs: inputs/events/input)
-
-(docs: inputs/events/invalid)
-
-## CSS class
-
-`.k-tags-input`

@@ -1,3 +1,0 @@
-### min
-
-`Number (default: null)`

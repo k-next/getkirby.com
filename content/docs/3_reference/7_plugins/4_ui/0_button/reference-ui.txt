@@ -1,127 +1,32 @@
-Title: Button
-----
 Text:
-
-## Text Button
-
-```html
-<k-button>Save</k-button>
-```
-
-## Text + Icon
-
-```html
-<k-button icon="check">Save</k-button>
-```
-
-## Icon only
-
-```html
-<k-button icon="check" alt="Save" />
-```
-
-## Themes
-
-```html
-<k-button theme="positive">Save</k-button>
-<k-button theme="negative">Delete</k-button>
-```
-
-## Image
-
-Instead of an icon, buttons can also have an image left next to the label.
-
-```html
-<k-button image="homer.jpg">Homer</k-button>
-<k-button image="marge.jpg">Marge</k-button>
-```
-
-## Props
-
-### current
-
-`String | Boolean (default: null)`
-
-Sets the aria-current attribute. Especially useful in connection with a link attribute.
-
-### disabled
-
-`Boolean (default: null)`
-
-A disabled button will have no pointer events and the opacity is be reduced.
-
-### icon
-
-`String (default: null)`
-
-Adds an icon to the button.
-
-### image
-
-`String (default: null)`
-
-Instead of an icon, the button can also have an image before the text.
-
-### link
-
-`String (default: null)`
-
-If the link attribute is set, the button will automatically be converted to a proper `a` tag.
-
-### responsive
-
-`Boolean (default: false)`
-
-A responsive button will hide the button text on smaller screens automatically and only keep the icon. An icon must be set in this case.
-
-### target
-
-`String (default: null)`
-
-In connection with the link attribute, you can also set the target of the link. This does not apply to regular buttons.
-
-### theme
-
-`String (default: null)`
-
-With the theme you can control the general design of the button. Available options are:
-
-- `positive`
-- `negative`
-
-### tooltip
-
-`String (default: null)`
-
-The tooltip attribute can be used to add additional text to the button, which is shown on mouseover (with the title attribute).
-
-### type
-
-`String (default: "button")`
-
-The type attribute sets the button type like in HTML. Available options:
-
-- `submit`
-- `reset`
-
-## Methods
-
-### focus
-
-Focuses the button manually
-
-### tab
-
-Activate the tab style of the button manually
-
-### untab
-
-Deactivates the tab style of the button manually
 
 ## Events
 
 You can bind any typical button event to this component.
 
-## CSS class
+## Examples
 
-`.k-button`
+### Text Button
+
+```html
+<k-button>Save</k-button>
+```
+
+### Text + Icon
+
+```html
+<k-button icon="check">Save</k-button>
+```
+
+### Icon only
+
+```html
+<k-button icon="check" alt="Save" />
+```
+
+### Themes
+
+```html
+<k-button theme="positive">Save</k-button>
+<k-button theme="negative">Delete</k-button>
+```

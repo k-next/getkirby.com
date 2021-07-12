@@ -1,38 +1,4 @@
-Title: Box
-----
 Text:
-
-The box component is a multi-purpose box with text. You can use it as a foundation for empty state displays or anything else that needs to be displayed in a box. It comes with 3 pre-defined styles …
-
-## Styles
-
-### Regular
-
-```html
-<k-box text="This is a nice box" />
-```
-
-### Positive
-
-```html
-<k-box text="This is a nice box" theme="positive" />
-```
-
-### Negative
-
-```html
-<k-box text="This is a nice box" theme="negative" />
-```
-
-## Custom content
-
-The box can be filled with your own elements to overwrite the default text implementation
-
-```html
-<k-box>
-  <!-- custom html goes here -->
-</k-box>
-```
 
 ## Events
 
@@ -42,6 +8,19 @@ The box listens to any typical HTML event.
 <k-box text="This is a box" @click="clicked" />
 ```
 
-## CSS class
+## Content
 
-`.k-box`
+### Via `text` prop
+
+```html
+<k-box text="This is a nice box" />
+```
+
+### Custom content
+The box can be filled with your own elements to overwrite the default text implementation:
+
+```html
+<k-box>
+  <!-- custom html goes here -->
+</k-box>
+```

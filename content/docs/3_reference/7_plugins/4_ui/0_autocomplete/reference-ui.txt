@@ -1,8 +1,6 @@
-Title: Autocomplete
-----
 Text:
 
-The Autocomplete component can be wrapped around any form of input to get an flexible starting point to provide an real-time autocomplete dropdown. We use it for our TagsInput component.
+## Example 
 
 ```html
 <template>
@@ -30,51 +28,3 @@ export default {
 }
 </script>
 ```
-
-## Props
-
-### options
-
-`Array (default: null)`
-
-Options for the autocomplete dropdown must be passed as an array of objects. Each object can have as many items as you like, but a text item is required to match agains the query:
-
-```
-[
-  { text: "this will be searched", id: "anything else is optional" },
-];
-```
-
-### skip
-
-`Array (default: null)`
-
-You can pass an array of strings, which should be ignored in the search.
-
-## Methods
-
-### close()
-
-Closes the autocomplete dropdown if it's currently open
-
-### search(query)
-
-Opens the dropdown and filters the options
-
-## Events
-
-### close
-
-Whenever the dropdown is being closed, the `close` event is being fired
-
-### select
-
-The `select` event is being triggered as soon as one of the options in the dropdown is being clicked or enter/tab is being hit.
-
-### search
-
-On every keystroke a `search` event is being fired, which can be used to react on searches
-
-## CSS class
-
-`.k-autocomplete`

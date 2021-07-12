@@ -1,8 +1,6 @@
-Title: Header
-----
 Text:
 
-The Header component is a composition of a big fat headline plus two optional slots for buttons — directly below the headline and on the right. The Header is a fundamental part of any main Panel view. While we use the left slot for option buttons, the right slot is mainly used for prev/next navigation between items such as pages or users.
+## Example
 
 ```html
 <k-header>
@@ -17,7 +15,3 @@ The Header component is a composition of a big fat headline plus two optional sl
   </k-button-group>
 </k-header>
 ```
-
-## CSS class
-
-`.k-header`

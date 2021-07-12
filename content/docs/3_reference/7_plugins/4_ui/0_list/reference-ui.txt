@@ -1,24 +1,6 @@
-Title: List
-----
 Text:
 
-## Items Option
-
-```html
-<k-list
-  :items="[
-    {...},
-    {...},
-    {...},
-  ]"
-/>
-```
-
-Check out the [ListItem](./list-item) component documentation for all available options for each item.
-
-## Default Slot
-
-If you need more control over each item, you can inject items manually
+## Example
 
 ```html
 <k-list>
@@ -28,7 +10,3 @@ If you need more control over each item, you can inject items manually
   <k-list-item key="item-d" v-bind="{}" />
 </k-list>
 ```
-
-## CSS class
-
-`.k-list`

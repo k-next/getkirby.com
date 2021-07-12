@@ -1,6 +1,6 @@
-Title: Radio Input
-----
 Text:
+
+## Example
 
 ```html
 <k-input
@@ -13,39 +13,3 @@ Text:
 	type="radio"
 />
 ```
-
-## Props
-
-(docs: inputs/props/autofocus)
-
-(docs: inputs/props/disabled)
-
-(docs: inputs/props/icon)
-
-(docs: inputs/props/id)
-
-(docs: inputs/props/name)
-
-(docs: inputs/props/options)
-
-(docs: inputs/props/required)
-
-(docs: inputs/props/theme)
-
-### value / v-model
-
-`String|Number|Boolean (default: null)`
-
-## Methods
-
-(docs: inputs/methods/focus)
-
-## Events
-
-(docs: inputs/events/input)
-
-(docs: inputs/events/invalid)
-
-## CSS class
-
-`.k-radio-input`

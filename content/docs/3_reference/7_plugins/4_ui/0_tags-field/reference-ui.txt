@@ -1,6 +1,6 @@
-Title: Tags Field
-----
 Text:
+
+## Example 
 
 ```html
 <k-tags-field
@@ -13,53 +13,3 @@ Text:
   label="Tags"
 />
 ```
-
-## Props
-
-(docs: fields/props/autofocus)
-
-(docs: fields/props/disabled)
-
-(docs: fields/props/help)
-
-(docs: fields/props/icon)
-
-(docs: fields/props/label)
-
-### layout
-
-`String (default: null)`
-
-You can set the layout to `list` to extend the width of each tag to 100% and show them in a list. This is handy in narrow columns or when a list is a more appropriate design choice for the input in general.
-
-(docs: fields/props/max)
-
-The maximum number of accepted tags
-
-(docs: fields/props/min)
-
-The minimum number of required tags
-
-(docs: fields/props/name)
-
-(docs: fields/props/options)
-
-Options will be shown in the autocomplete dropdown as soon as you start typing.
-
-(docs: fields/props/required)
-
-### value / v-model
-
-`Array (default: null)`
-
-## Methods
-
-(docs: fields/methods/focus)
-
-## Events
-
-(docs: fields/events/input)
-
-## CSS class
-
-`.k-tags-field`

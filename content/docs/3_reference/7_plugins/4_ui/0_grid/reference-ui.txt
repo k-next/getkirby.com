@@ -1,10 +1,6 @@
-Title: Grid
-----
 Text:
 
-The Grid component is a CSS Grid wrapper. It goes very well together with the Column component, which allows to set column widths in a very comfortable way.  Any other element within the Grid component can be used as well though.
-
-## Columns
+## Example
 
 ```html
 <k-grid>
@@ -20,21 +16,6 @@ The Grid component is a CSS Grid wrapper. It goes very well together with the Co
   <k-column width="1/4">...</k-column>
 
 </k-grid>
-```
-
-Check out the [Column component](./column) docs for all available column widths.
-
-## Gutters
-
-The grid does not have any gutter by default, but you can pass the following gutter sizes to control spacing between columns:
-
-- `small`
-- `medium`
-- `large`
-- `huge`
-
-```html
-<k-grid gutter="medium">...</k-grid>
 ```
 
 ## Layout anything
@@ -71,7 +52,3 @@ With some CSS variable magic, the Grid component can change its number of column
   <div>...</div>
 </k-grid>
 ```
-
-## CSS class
-
-`.k-grid`

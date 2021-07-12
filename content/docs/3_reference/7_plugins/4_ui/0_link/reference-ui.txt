@@ -1,55 +1,5 @@
-Title: Link
-----
 Text:
-
-Our Link component is a wrapper around a native HTML `a` element, but it is also used to swap this with a Vue `router-link` element in our application whenever it makes sense. It comes with a set of additional useful helpers.
-
-```html
-<k-link to="https://getkirby.com">Kirby Website</k-link>
-```
-
-## Props
-
-### current
-
-`String | Boolean (Default: null)`
-
-Sets the `aria-current` attribute
-
-### disabled
-
-`Boolean (Default: null)`
-
-Disabled links will have no pointer events and cannot be clicked or focused.
-
-### rel
-
-`String (Default: null)`
-
-### target
-
-`String (Default: null)`
-
-### title
-
-`String (Default: null)`
-
-### to
-
-`String (Default: null)`
-
-The path or absolute Url for the link.
-
-## Methods
-
-### focus()
-
-Set the focus on the link element
 
 ## Events
 
 You can bind any event to the link.
-
-## CSS Class
-
-`.k-link`
