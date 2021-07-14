@@ -213,7 +213,7 @@ Kirby::plugin('yourname/todos', [
         'dialogs' => [
 
           // the key of the dialog defines the dialog routing pattern
-          'todos/create' => function () {
+          'todos/create' => [
             // the load event is creating a GET route at
             // `/panel/dialogs/{pattern}`;
             // it returns the setup for the dialog, including
@@ -238,7 +238,7 @@ Kirby::plugin('yourname/todos', [
               // create todo
               return true;
             }
-          }
+          ]
         ]
       ]
     };
