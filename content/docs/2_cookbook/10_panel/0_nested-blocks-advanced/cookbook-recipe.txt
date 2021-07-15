@@ -1,0 +1,99 @@
+Title: Nested blocks advanced
+
+----
+
+Published: 2021-06-24
+
+----
+
+Description: A more advanced example of nested blocks with different layouts.
+
+----
+
+Authors: - authors/christian-fickinger
+
+----
+
+Text:
+This is an advanced version of the cookbook recipe for nested blocks, which additionally allows to pass collected values from the parent block to the nested block. You should have read and understood the cookbook recipe [Nested blocks](../panel/nested-blocks) first. In this example we extend it with additional layouts.
+
+
+## Preparation
+You need to install the [Nested blocks](../panel/nested-blocks) example from the mentioned cookbook recipe above. We modify this example step by step.
+
+
+## Blueprints
+
+First let's change the blueprints with the new requirements. We add a select field `layout` to our FAQ block and offer two layout variants for it.
+
+```yaml "/site/plugins/faq-block/blueprints/blocks/faq.yml"
+name: FAQ
+icon: star
+fields:
+  layout:
+    type: select
+    empty: false
+    options:
+      v1: Layout 1
+      v2: Layout 2
+  headline:
+    type: text
+  text:
+    type: writer
+  blocks:
+    type: blocks
+    fieldsets:
+      - faqItem
+```
+
+## Output
+
+Now we modify the output snippets with our new requirements.
+
+### FAQ snippet
+We can deliver different HTML code depending on which version we are in by checking the `layout` value.
+
+```php
+$layout = $block->layout()->value();
+
+if ($layout == 'v1'):
+
+  // HTML code for layout version 1
+
+elseif ($layout == 'v2'):
+
+  // HTML code for layout version 2
+
+endif;
+```
+Within each version, we now call the nested block as follows. It is important to pass the selected `layout` to the nested block, if we want to use different HTML markup for each version.
+
+```php
+foreach ($block->blocks()->toBlocks() as $nestedBlock):
+
+  snippet('blocks/' . $nestedBlock->type(),[
+    'block' => $nestedBlock,
+    'layout' => $layout
+  ]);
+
+endforeach;
+```
+
+
+
+
+### Question/answer snippet
+
+By passing the layout value from the parent block, we can use it via `$data['layout']` in the nested blocks now. We just need to check the value and can deliver different HTML output for each version.
+
+```php "/site/plugins/faq-block/snippets/blocks/faqItem.php"
+if ($data['layout'] == 'v1'):
+
+  // Nested HTML code for layout version 1
+
+elseif ($data['layout'] == 'v2'):
+
+  // Nested HTML code for layout version 2
+
+endif;
+```
